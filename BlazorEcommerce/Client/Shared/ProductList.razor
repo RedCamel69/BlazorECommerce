@@ -1,0 +1,85 @@
+﻿@inject IProductService productService
+@implements IDisposable
+
+<h3>ProductList</h3>
+
+@if (productService.Products == null || productService.Products.Count == 0)
+{
+    <h2>@productService.Message </h2>
+}
+ 
+else
+{
+    
+
+
+<ul class="list-unstyled">
+    @foreach (var product in productService.Products)
+   {
+       <li class="media my-3">
+           <div class="media-img-wrapper mr-2">
+               <a href="/product/@product.Id">
+                   <img class="media-img" src="@product.ImageUrl" alt="@product.Title"/>
+               </a>
+           </div>
+           <div class="media-body">
+               <a href="/product/@product.Id">
+                   <h4 class="mb-0">@product.Title</h4>
+                   <p>
+                       @product.Description
+                   </p>
+                  <h5 class="price">@GetPriceText(product)</h5>
+               </a>
+           </div>
+       </li>
+   }
+
+    </ul>
+
+   
+
+    for(var i = 1; i < productService.PageCount; i++)
+    {
+       
+        <a class="btn
+                        @(i==productService.CurrentPage ? "btn-info" :  "btn-outline-ingo")
+                        page-selection"
+                        href="/search/@productService.LastSearchText/@i">@i</a>
+    }
+
+
+}
+
+@code {
+    private static List<Product> Products = new List<Product>();
+
+    protected override void OnInitialized()
+    {
+
+        productService.ProductsChanged += StateHasChanged;
+
+
+    }
+
+    public void Dispose()
+    {
+        productService.ProductsChanged -= StateHasChanged;
+    }
+
+    private string GetPriceText(Product product)
+    {
+        var variants = product.Variants;
+        if (variants.Count == 0)
+        {
+            return string.Empty;
+        }
+        else if(variants.Count == 1)
+        {
+            return $"${variants[0].Price}";
+        }
+
+        decimal minPrice = variants.Min(v => v.Price);
+        return $"Start from : ${minPrice}";
+
+    }
+}
