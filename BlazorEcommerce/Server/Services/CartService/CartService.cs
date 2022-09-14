@@ -135,6 +135,11 @@ namespace BlazorEcommerce.Server.Services.CartService
                 Message = "Successfully updated cart item quantity"
             };
         }
+
+        public Task<ServiceResponse<bool>> RemoveItemFromCart(CartItem cartItem)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

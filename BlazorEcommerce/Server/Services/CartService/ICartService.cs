@@ -12,6 +12,8 @@
 
         Task<ServiceResponse<bool>> AddToCart(CartItem cartItem);
 
+        Task<ServiceResponse<bool>> RemoveItemFromCart(CartItem cartItem);
+
         Task<ServiceResponse<bool>> UpdateQuantity(CartItem cartItem);        
 
 
