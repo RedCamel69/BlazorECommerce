@@ -34,11 +34,11 @@ namespace BlazorEcommerce.Client.Services
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/Product/featured")
                 : await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/Product/Category/{categoryUrl}");
 
-          
+
 
             if (res != null && res.Data != null)
                 Products = res.Data;
-               
+
             CurrentPage = 1;
             PageCount = 0;
 
@@ -67,7 +67,7 @@ namespace BlazorEcommerce.Client.Services
             if (result != null && result.Data != null)
             {
                 Products = result.Data.Products;
-                CurrentPage=result.Data.CurrentPage;
+                CurrentPage = result.Data.CurrentPage;
                 PageCount = result.Data.Pages;
             }
 
@@ -76,6 +76,6 @@ namespace BlazorEcommerce.Client.Services
             ProductsChanged.Invoke();
         }
 
-       
+
     }
 }

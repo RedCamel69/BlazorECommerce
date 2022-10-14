@@ -1,5 +1,4 @@
 ﻿using BlazorEcommerce.Server.Services.OrderService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers
@@ -24,5 +23,5 @@ namespace BlazorEcommerce.Server.Controllers
         }
     }
 
-    
+
 }

@@ -25,12 +25,14 @@ namespace BlazorEcommerce.Client.Services.AuthService
 
         public async Task<ServiceResponse<int>> Register(UserRegister request)
         {
-            try {
+            try
+            {
                 var result = await _http.PostAsJsonAsync("api/auth/register", request);
                 var returnResult = await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
                 return returnResult;
-                    }
-            catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
 

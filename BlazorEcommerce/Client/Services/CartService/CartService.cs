@@ -9,11 +9,11 @@ namespace BlazorEcommerce.Client.Services.CartService
         private readonly HttpClient _httpClient;
         private readonly AuthenticationStateProvider _authStateProvider;
 
-        public CartService(ILocalStorageService localStorage, 
+        public CartService(ILocalStorageService localStorage,
             HttpClient httpClient,
-            AuthenticationStateProvider authStateProvider )
+            AuthenticationStateProvider authStateProvider)
         {
-            _localStorage=localStorage;
+            _localStorage = localStorage;
             _httpClient = httpClient;
             _authStateProvider = authStateProvider;
         }
@@ -56,7 +56,7 @@ namespace BlazorEcommerce.Client.Services.CartService
 
         public async Task<List<CartProductResponse>> GetCartProducts()
         {
-            if(await IsUserAuthenticated())
+            if (await IsUserAuthenticated())
             {
                 var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<CartProductResponse>>>("api/cart");
                 return response.Data;
@@ -79,7 +79,7 @@ namespace BlazorEcommerce.Client.Services.CartService
 
         }
 
-     
+
 
         public async Task RemoveProductFromCart(int productId, int productTypeId)
         {
@@ -105,12 +105,12 @@ namespace BlazorEcommerce.Client.Services.CartService
                 {
                     cart.Remove(cartItem);
                     await _localStorage.SetItemAsync("cart", cart);
-                   
+
                 }
 
             }
 
-           // await GetCartItemsCount();
+            // await GetCartItemsCount();
 
         }
 
@@ -147,7 +147,7 @@ namespace BlazorEcommerce.Client.Services.CartService
             }
 
 
-           
+
         }
 
         public async Task StoreCartItems(bool emptyLocalCart)

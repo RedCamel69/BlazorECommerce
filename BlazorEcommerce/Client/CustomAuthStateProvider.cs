@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -10,9 +9,9 @@ namespace BlazorEcommerce.Client
     {
         private readonly ILocalStorageService _localStorage;
 
-        private  HttpClient _http { get; }
+        private HttpClient _http { get; }
 
-        public CustomAuthStateProvider(ILocalStorageService localStorage , HttpClient http)
+        public CustomAuthStateProvider(ILocalStorageService localStorage, HttpClient http)
         {
             _localStorage = localStorage;
             _http = http;
@@ -49,10 +48,10 @@ namespace BlazorEcommerce.Client
 
         private byte[] ParseBase64WithoutPadding(string base64)
         {
-            switch(base64.Length % 4)
+            switch (base64.Length % 4)
             {
                 case 2: base64 += "=="; break;
-                case 3: base64 += "="; break;   
+                case 3: base64 += "="; break;
             }
             return Convert.FromBase64String(base64);
         }

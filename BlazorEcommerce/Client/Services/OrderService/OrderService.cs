@@ -21,7 +21,7 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task PlaceOrder()
         {
-           if (await IsUserAuthenticated())
+            if (await IsUserAuthenticated())
             {
                 await _http.PostAsync("api/order", null);
             }
