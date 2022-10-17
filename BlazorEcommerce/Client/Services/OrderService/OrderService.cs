@@ -5,15 +5,15 @@ namespace BlazorEcommerce.Client.Services.OrderService
     public class OrderService : IOrderService
     {
         private readonly HttpClient _http;
+        private readonly IAuthService _authService;
         private readonly NavigationManager _navigationManager;
-        private readonly AuthenticationStateProvider _authenticationStateProvider;
-
+      
         public OrderService(HttpClient httpClient,
-            AuthenticationStateProvider authStateProvider,
+            IAuthService authService,
             NavigationManager navigationManager)
         {
             _http = httpClient;
-            _authenticationStateProvider = authStateProvider;
+            _authService = authService;
             _navigationManager = navigationManager;
         }
 
@@ -34,7 +34,7 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task PlaceOrder()
         {
-            if (await IsUserAuthenticated())
+            if (await _authService.IsUserAuthenticated())
             {
                 await _http.PostAsync("api/order", null);
             }
@@ -44,9 +44,6 @@ namespace BlazorEcommerce.Client.Services.OrderService
             }
         }
 
-        private async Task<bool> IsUserAuthenticated()
-        {
-            return (await _authenticationStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-        }
+      
     }
 }
