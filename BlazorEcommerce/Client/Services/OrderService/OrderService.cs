@@ -19,6 +19,12 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public AuthenticationStateProvider AuthStateProvider { get; }
 
+        public  async Task<List<OrderOverviewResponse>> GetOrders()
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order");
+            return result.Data;
+        }
+
         public async Task PlaceOrder()
         {
             if (await IsUserAuthenticated())
