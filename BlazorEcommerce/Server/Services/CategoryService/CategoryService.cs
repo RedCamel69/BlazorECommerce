@@ -15,7 +15,7 @@
             return new ServiceResponse<List<Category>>()
             {
                 Data = categories
-            };   
+            };
         }
     }
 }

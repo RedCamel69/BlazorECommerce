@@ -2,7 +2,7 @@
 {
     public class CategoryService : ICategoryService
     {
-        
+
         private readonly HttpClient _http;
 
         public List<Category> Categories { get; set; }
@@ -22,6 +22,6 @@
                 Categories = res.Data;
         }
 
-      
+
     }
 }

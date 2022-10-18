@@ -1,5 +1,4 @@
 ﻿using BlazorEcommerce.Server.Services.AuthService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -18,20 +17,20 @@ namespace BlazorEcommerce.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request )
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
         {
-           var response = await _authService.Register(
-               new User 
-                { 
-                    Email=request.Email
+            var response = await _authService.Register(
+                new User
+                {
+                    Email = request.Email
                 },
-                request.Password);
+                 request.Password);
             if (!response.Success)
             {
-                return BadRequest(response);    
+                return BadRequest(response);
             }
 
-            return Ok(response);    
+            return Ok(response);
         }
 
         [HttpPost("login")]
