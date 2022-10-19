@@ -1,5 +1,4 @@
 ﻿@page "/profile"
-@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IAuthService AuthService
 
 
@@ -10,6 +9,10 @@
 <AuthorizeView>
     <h3>Hi! You're logged in with <i>@context.User.Identity.Name</i></h3>     
 </AuthorizeView>
+
+<h5>Delivery Address</h5>
+<AddressForm></AddressForm>
+<p></p>
 
 <h5>Change Password</h5>
 

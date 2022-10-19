@@ -1,6 +1,7 @@
 ﻿@page "/cart"
 @inject ICartService CartService;
 @inject IOrderService OrderService;
+@inject IAuthService AuthService;
 
 <PageTitle>Shopping Cart</PageTitle>
 <h3>Shopping Cart</h3>
@@ -42,6 +43,13 @@ else
         </div>
     </div>
 
+    @if (isAuthenticated){
+        <div>
+            <h5>Delivery Address</h5>
+            <AddressForm/>
+        </div>
+    }
+
     <button class="btn alert-success float-right mt-1" @onclick="PlaceOrder">
         PlaceOrder
     </button>
@@ -52,11 +60,12 @@ else
     List<CartProductResponse> cartProducts = null;
     string message = "Loading cart..";
     bool orderPlaced = false;
-
+    bool isAuthenticated = false;
 
     protected override async Task OnInitializedAsync()
     {
         orderPlaced = false;
+        isAuthenticated = await AuthService.IsUserAuthenticated();
         await LoadCart();
     }
 
