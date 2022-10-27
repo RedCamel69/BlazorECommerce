@@ -7,6 +7,7 @@ global using System.Net.Http.Json;
 using BlazorEcommerce.Client;
 using BlazorEcommerce.Client.Services.AddressService;
 using BlazorEcommerce.Client.Services.CartService;
+using BlazorEcommerce.Client.Services.ProductTypeService;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,6 +18,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();

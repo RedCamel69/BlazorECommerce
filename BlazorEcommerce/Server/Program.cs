@@ -3,10 +3,13 @@ global using BlazorEcommerce.Server.Services.CategoryService;
 global using BlazorEcommerce.Server.Services.ProductService;
 global using BlazorEcommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
+global using BlazorEcommerce.Server.Services.ProductTypeService;
+
 using BlazorEcommerce.Server.Services.AdressService;
 using BlazorEcommerce.Server.Services.AuthService;
 using BlazorEcommerce.Server.Services.CartService;
 using BlazorEcommerce.Server.Services.OrderService;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -26,6 +29,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();

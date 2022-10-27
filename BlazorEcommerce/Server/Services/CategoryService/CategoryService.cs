@@ -36,7 +36,7 @@
 
         private async Task<Category> GetCategoryById(int id)
         {
-            return _context.Categories.FirstOrDefault(c => c.Id == id);
+            return  _context.Categories.FirstOrDefault(c => c.Id == id);
         }
 
         public async Task<ServiceResponse<List<Category>>> GetAdminCategories()
