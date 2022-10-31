@@ -45,7 +45,13 @@ else
                         }
                     </td>
                     <td>@(product.Visible ? "✔️" : "")</td>
+                    <td>
+                    <button class="btn btn-primary" @onclick="(() => EditProduct(product.Id))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+                </td>
                </tr>
+                
             </Virtualize>
             </tbody>
     </table>
