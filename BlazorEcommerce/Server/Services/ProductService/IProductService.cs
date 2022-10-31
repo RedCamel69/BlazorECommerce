@@ -13,5 +13,7 @@
         Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string searchText);
 
         Task<ServiceResponse<List<Product>>> GetFeaturedProducts();
+
+        Task<ServiceResponse<List<Product>>> GetAdminProducts();
     }
 }
