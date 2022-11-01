@@ -3,9 +3,12 @@
     public class ProductService : IProductService
     {
         private readonly DataContext _context;
-        public ProductService(DataContext context)
+        private readonly IHttpContextAccessor _httpContext;
+
+        public ProductService(DataContext context , IHttpContextAccessor httpContext)
         {
             _context = context;
+            _httpContext = httpContext;
         }
 
         public  async Task<ServiceResponse<List<Product>>> GetAdminProducts()
@@ -41,11 +44,22 @@
         public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
         {
             var response = new ServiceResponse<Product>();
-            //var product = await _context.Products.FindAsync(productId);
-            var product = await _context.Products
-                .Include(p => p.Variants.Where(v=>v.Visible && !v.Deleted))
+            Product product = null;
+
+            if (_httpContext.HttpContext.User.IsInRole("Admin"))
+            {
+                product = await _context.Products
+               .Include(p => p.Variants.Where(v => !v.Deleted))
+               .ThenInclude(v => v.ProductType)
+               .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted);
+            }
+            else
+            {
+                product = await _context.Products
+                .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .ThenInclude(v => v.ProductType)
                 .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted && p.Visible);
+            }
 
             if (product == null)
             {
