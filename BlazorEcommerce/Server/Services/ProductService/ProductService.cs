@@ -205,7 +205,7 @@
 
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
-            var dbProduct = await _context.Products.FindAsync(productId);
+            var dbProduct = await _context.Products.FindAsync(product.Id);
             if (dbProduct == null)
             {
                 return new ServiceResponse<Product>

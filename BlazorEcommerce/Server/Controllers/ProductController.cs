@@ -34,7 +34,8 @@ namespace BlazorEcommerce.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPost, Authorize(Roles = "Admin")]
+        //[HttpPost, Authorize(Roles = "Admin")]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
         {
             var result = await _productService.CreateProduct(product);

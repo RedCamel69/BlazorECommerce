@@ -23,6 +23,19 @@ namespace BlazorEcommerce.Client.Services
 
         public event Action ProductsChanged;
 
+        public async Task<Product> CreateProduct(Product product)
+        {
+           var result = await _http.PostAsJsonAsync("api/product", product);
+            var newProduct = (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
+            return newProduct;
+        }
+
+        public async Task  DeleteProduct(Product product)
+        {
+            var result = await _http.DeleteAsync($"api/product/{product.Id}");         
+        }
+
         public async Task GetAdminProducts()
         {
             var res =
@@ -96,6 +109,11 @@ namespace BlazorEcommerce.Client.Services
             ProductsChanged.Invoke();
         }
 
-
+        public async Task<Product> UpdateProduct(Product product)
+        {
+            var result = await _http.PutAsJsonAsync($"api/product", product);
+            var content = await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>();
+            return content.Data;
+        }
     }
 }
