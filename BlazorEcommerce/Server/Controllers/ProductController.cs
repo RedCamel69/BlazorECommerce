@@ -49,10 +49,11 @@ namespace BlazorEcommerce.Server.Controllers
             return Ok(result);
         }
 
-        [HttpDelete, Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(Product product)
+       // [HttpDelete, Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
         {
-            var result = await _productService.DeleteProduct(product.Id);
+            var result = await _productService.DeleteProduct(id);
             return Ok(result);
         }
 
