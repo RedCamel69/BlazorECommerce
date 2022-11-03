@@ -13,8 +13,7 @@ namespace BlazorEcommerce.Shared
 
         public string ImageUrl { get; set; } = string.Empty;
 
-        //[Column(TypeName = "decimal(18,2)")]
-        //public decimal Price { get; set; }
+        public List<Image> Images { get; set; } = new List<Image>();
 
         public Category? Category { get; set; }
 
@@ -26,6 +25,7 @@ namespace BlazorEcommerce.Shared
 
         public bool Visible { get; set; } = true;
         public bool Deleted { get; set; } = false;
+
         [NotMapped]
         public bool Editing { get; set; } = false;
         [NotMapped]
