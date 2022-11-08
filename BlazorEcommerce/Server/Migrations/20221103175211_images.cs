@@ -4,12 +4,12 @@
 
 namespace BlazorEcommerce.Server.Migrations
 {
-    public partial class Image : Migration
+    public partial class images : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,24 +19,24 @@ namespace BlazorEcommerce.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_Products_ProductId",
+                        name: "FK_Images_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_ProductId",
-                table: "Image",
+                name: "IX_Images_ProductId",
+                table: "Images",
                 column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Images");
         }
     }
 }

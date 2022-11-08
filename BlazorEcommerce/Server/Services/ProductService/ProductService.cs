@@ -14,13 +14,23 @@
         public async Task<ServiceResponse<Product>> CreateProduct(Product product)
         {
 
-            foreach (var variant in product.Variants)
+            try
             {
-                variant.ProductType = null; //ef workaround to stop new product type being created
+                foreach (var variant in product.Variants)
+                {
+                    variant.ProductType = null; //ef workaround to stop new product type being created
+                }
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                return new ServiceResponse<Product> { Data = product };
             }
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<Product> { Data = product };
+            catch(Exception ex)
+            {
+                return new ServiceResponse<Product> { 
+                    Success = false,
+                    Message = ex.Message,
+                    Data = null };
+            }
         }
 
         public async Task<ServiceResponse<bool>> DeleteProduct(int productId)
@@ -50,7 +60,7 @@
                      .Where(p => !p.Deleted)
                      .Include(p => p.Variants.Where(v => !v.Deleted))
                      .ThenInclude(v => v.ProductType)
-                     //.Include(p => p.Images)
+                     .Include(p => p.Images)
                      .ToListAsync()
             };
 
@@ -64,6 +74,7 @@
                 Data = await _context.Products
               .Where(x => x.Featured == true && !x.Deleted && x.Visible)
               .Include(p => p.Variants.Where(v=>!v.Deleted && v.Visible))
+              .Include(p => p.Images)
               .ToListAsync()
             };
 
@@ -82,6 +93,7 @@
                 product = await _context.Products
                .Include(p => p.Variants.Where(v => !v.Deleted))
                .ThenInclude(v => v.ProductType)
+               .Include(p => p.Images)
                .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted);
             }
             else
@@ -89,6 +101,7 @@
                 product = await _context.Products
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .ThenInclude(v => v.ProductType)
+                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted && p.Visible);
             }
 
@@ -114,6 +127,7 @@
                 Data = await _context.Products
                     .Where(p=>!p.Deleted && p.Visible)
                     .Include(_ => _.Variants.Where(v=>!v.Deleted && v.Visible))
+                     .Include(p => p.Images)
                     .ToListAsync()
 
             };
@@ -130,6 +144,7 @@
                 Data = await _context.Products
                 .Where(p => p.Category.Url.ToLower() == categoryUrl.ToLower() && !p.Deleted && p.Visible)
                  .Include(_ => _.Variants.Where(v => !v.Deleted && v.Visible))
+                  .Include(p => p.Images)
                 .ToListAsync()
             };
 
@@ -186,6 +201,7 @@
                             p.Description.ToLower().Contains(searchText.ToLower())
                             && !p.Deleted && p.Visible)
                             .Include(p => p.Variants)
+                             .Include(p => p.Images)
                             .Skip((page - 1) * (int)pageResults)
                             .Take((int)pageResults)
                             .ToListAsync();
@@ -205,7 +221,10 @@
 
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
-            var dbProduct = await _context.Products.FindAsync(product.Id);
+            var dbProduct = await _context.Products
+                 .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == product.Id);
+
             if (dbProduct == null)
             {
                 return new ServiceResponse<Product>
@@ -221,6 +240,12 @@
             dbProduct.CategoryId = product.CategoryId;
             dbProduct.Visible = product.Visible;
             dbProduct.Featured = product.Featured;
+
+
+            var productImages = dbProduct.Images;
+            _context.Images.RemoveRange(productImages);
+
+            dbProduct.Images = product.Images;
 
             foreach (var variant in product.Variants)
             {
@@ -238,7 +263,7 @@
                     dbVariant.Price = variant.Price;
                     dbVariant.OriginalPrice = variant.OriginalPrice;
                     dbVariant.Visible = variant.Visible;
-                    dbVariant.Deleted = variant.Deleted;
+                    dbVariant.Deleted = variant.Deleted;                    
                 }
             }
 

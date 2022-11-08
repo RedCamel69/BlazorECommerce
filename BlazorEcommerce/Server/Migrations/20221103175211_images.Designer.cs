@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorEcommerce.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221103154954_Image")]
-    partial class Image
+    [Migration("20221103175211_images")]
+    partial class images
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,7 +162,7 @@ namespace BlazorEcommerce.Server.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("BlazorEcommerce.Shared.Order", b =>

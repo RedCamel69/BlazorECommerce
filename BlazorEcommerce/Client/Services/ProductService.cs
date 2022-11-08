@@ -112,8 +112,17 @@ namespace BlazorEcommerce.Client.Services
         public async Task<Product> UpdateProduct(Product product)
         {
             var result = await _http.PutAsJsonAsync($"api/product", product);
-            var content = await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>();
+            var content = new ServiceResponse<Product>();
+            try
+            {
+                content = await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>();
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
             return content.Data;
+          
         }
     }
 }

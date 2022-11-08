@@ -11,6 +11,7 @@ using BlazorEcommerce.Client.Services.ProductTypeService;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddMudServices();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
